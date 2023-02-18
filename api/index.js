@@ -1,10 +1,15 @@
-import Express from "express";
-const app = Express();
+import express from "express";
+const app = express();
 import authRouter from "./routers/auth.js";
 import userRouter from "./routers/users.js";
 import postRouter from "./routers/posts.js";
 import commentRouter from "./routers/comments.js";
 import likeRouter from "./routers/likes.js";
+
+
+//middlewers
+
+app.use(express.json)
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
