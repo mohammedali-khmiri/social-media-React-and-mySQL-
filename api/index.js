@@ -5,11 +5,22 @@ import userRouter from "./routers/users.js";
 import postRouter from "./routers/posts.js";
 import commentRouter from "./routers/comments.js";
 import likeRouter from "./routers/likes.js";
+import { db } from "./connectionDB.js";
 
 
-//middlewers
 
-app.use(express.json)
+
+/* A middleware that parses the body of the request and makes it available on the request object. */
+app.use(express.json())
+
+/* Connecting to the database. */
+db.connect(function (err) {
+	if (err) {
+		console.error("error connecting: " + err);
+		return;
+	}
+	console.log("DB connected !");
+});
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
