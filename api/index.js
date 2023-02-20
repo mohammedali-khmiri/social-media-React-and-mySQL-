@@ -6,12 +6,16 @@ import postRouter from "./routers/posts.js";
 import commentRouter from "./routers/comments.js";
 import likeRouter from "./routers/likes.js";
 import { db } from "./connectionDB.js";
-
+import cors from "cors"
+import cookieParser from "cookie-parser"
+import dotenv from "dotenv"
 
 
 
 /* A middleware that parses the body of the request and makes it available on the request object. */
 app.use(express.json())
+app.use(cors())
+app.use(cookieParser())
 
 /* Connecting to the database. */
 db.connect(function (err) {

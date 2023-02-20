@@ -1,5 +1,10 @@
 import { db } from "../connectionDB.js";
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
+
+// const secret_key = process.env.SECRET_KEY
+
 
 //REGISTER
 export const register = async (req, res) => {
@@ -41,18 +46,18 @@ export const login = async (req, res) => {
 
 
     db.query(q,[req.body.username],(err, data)=>{
-    
-        //check if user exists
         if (err) return res.status(500).json(err)
-    
-        if(data.length) return res.status(409).json("User already exists")
+        if(data.length === 0) return res.status(404).json("User not found")
 
-    
-        db.query(q,[values],(err,data)=>{
-            if (err) return res.status(500).json(err)
-            return res.status(200).json("") 
-        })
-    
+        const checkPassword = bcrypt.compareSync(req.body.password, data[0].password)
+        if(!checkPassword) res.status(400).json("Wrong Password or Username")
+
+        const token = jwt.sign({id:data[0].id}, "secret key")
+        const {password, ...others} = data[0]
+
+        res.cookie("accessToken",token,{
+            httpOnly: true
+        }).status(200).json(others)    
     
         
     })
