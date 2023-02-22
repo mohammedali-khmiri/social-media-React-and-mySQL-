@@ -1,7 +1,7 @@
 import express from "express";
-import {  } from "../controllers/post.js";
+import { getTimeline } from "../controllers/post.js";
 const router = express.Router();
 
-router.get("", );
+router.get("/", getTimeline);
 
 export default router;

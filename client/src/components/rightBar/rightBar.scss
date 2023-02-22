@@ -1,0 +1,102 @@
+@import "../../style.scss";
+
+.rightBar {
+	@include themify($themes) {
+		flex: 3;
+		position: sticky;
+		top: 70px;
+		height: calc(100vh - 70px);
+		overflow: scroll;
+		background-color: themed("bgSoft");
+
+		@include mobile {
+			display: none;
+		}
+		@include tablet {
+			display: none;
+		}
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		.container {
+			padding: 20px;
+			.item {
+				padding: 10px;
+				margin-bottom: 20px;
+				border-radius: 5px;
+				background-color: themed("bg");
+				color: themed("textColor");
+				-webkit-box-shadow: 1px 3px 14px 0px rgba(0, 0, 0, 0.3);
+				-moz-box-shadow: 1px 3px 14px 0px rgba(0, 0, 0, 0.3);
+				box-shadow: 1px 3px 14px 0px rgba(0, 0, 0, 0.3);
+
+				span {
+					color: themed("textColorSoft");
+				}
+
+				.user {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					margin: 20px 0px;
+
+					.userInfo {
+						display: flex;
+						align-items: center;
+						gap: 10px;
+						position: relative;
+						img {
+							width: 40px;
+							height: 40px;
+							border-radius: 50%;
+							object-fit: cover;
+						}
+
+						.online {
+							width: 12px;
+							height: 12px;
+							background-color: limegreen;
+							border-radius: 50%;
+							position: absolute;
+							bottom: 0;
+							left: 30px;
+						}
+
+						span {
+							font-size: 14px;
+							font-weight: 500;
+							color: themed("textColor");
+						}
+
+						p {
+							color: themed("textColorSoft");
+						}
+					}
+
+					.buttons {
+						display: flex;
+						align-items: center;
+						gap: 10px;
+
+						button {
+							border: none;
+							color: white;
+							padding: 5px;
+							cursor: pointer;
+							border-radius: 5px;
+
+							&:first-child {
+								background-color: #2b78dddc;
+							}
+							&:last-child {
+								background-color: #e04f4a;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
