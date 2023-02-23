@@ -1,5 +1,6 @@
 import express from "express";
 const app = express();
+// import uploadRouter from "./routers/upload.js";
 import authRouter from "./routers/auth.js";
 import userRouter from "./routers/users.js";
 import postRouter from "./routers/posts.js";
@@ -8,7 +9,7 @@ import likeRouter from "./routers/likes.js";
 import { db } from "./connectionDB.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
+import multer from "multer";
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
@@ -33,6 +34,24 @@ db.connect(function (err) {
   console.log("DB connected !");
 });
 
+///
+/* Creating a storage object and then using it to create a multer object. */
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../client/public/upload");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+//  api
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  const file = req.file;
+  res.status(200).json(file.filename);
+});
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
 app.use("/api/posts", postRouter);

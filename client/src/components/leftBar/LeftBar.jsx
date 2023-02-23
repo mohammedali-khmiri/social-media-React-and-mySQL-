@@ -4,7 +4,7 @@ import Groups from "../../assets/group.png";
 import Market from "../../assets/marketplace.png";
 import Watch from "../../assets/facebook.png";
 import Memories from "../../assets/memories.png";
-import Events from "../../assets/event.png";
+import Events from "../../assets/eventt.png";
 import Gaming from "../../assets/gaming.png";
 import Gallery from "../../assets/gallery.png";
 import Videos from "../../assets/video-chat.png";
