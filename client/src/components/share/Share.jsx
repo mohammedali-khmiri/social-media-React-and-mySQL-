@@ -28,7 +28,9 @@ const Share = () => {
   const { currentUser } = useContext(AuthContext);
 
   //mutations after adding a new post it's gonna refresh our fetch method get posts
+  // Access the client
   const queryClient = useQueryClient();
+  // Mutations
   const mutation = useMutation(
     (newPost) => {
       return makeRequest.post("/posts/new", newPost);

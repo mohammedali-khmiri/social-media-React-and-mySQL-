@@ -1,9 +1,11 @@
-import Post from "../post/Post";
 import "./posts.scss";
+import Post from "../post/Post";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 
 const Posts = () => {
+
+   // Queries
   const { isLoading, error, data } = useQuery(["posts"], () =>
     makeRequest.get("/posts").then((res) => {
       console.log(res.data);
@@ -11,6 +13,8 @@ const Posts = () => {
       return res.data;
     })
   );
+
+
   return (
     <div className="posts">
       {error

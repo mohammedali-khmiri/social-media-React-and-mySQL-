@@ -20,6 +20,7 @@ function App() {
   const { currentUser } = useContext(AuthContext);
   const { darkMode } = useContext(DarkModeContext);
 
+  // Create a client
   const queryClient = new QueryClient();
   /**
    * Layout is a function that returns a div that contains a Navbar, a LeftBar, an Outlet, and a
@@ -27,6 +28,7 @@ function App() {
    */
   const Layout = () => {
     return (
+      // Provide the client to your App
       <QueryClientProvider client={queryClient}>
         <div className={`theme-${darkMode ? "dark" : "light"}`}>
           <Navbar />
