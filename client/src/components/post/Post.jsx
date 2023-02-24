@@ -6,25 +6,58 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import BookmarkOutlinedIcon from "@mui/icons-material/BookmarkOutlined";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Comments from "../comments/Comments";
 import moment from "moment";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
+  const { currentUser } = useContext(AuthContext);
 
   // Queries
-  const { isLoading, error, data } = useQuery(["comments"], () =>
+  //get all comments of specific post by sending postId
+  const {
+    isLoading: isLoadingComment,
+    error: errComment,
+    data: dataComment,
+  } = useQuery(["comments", post.id], () =>
     makeRequest.get("/comments?postId=" + post.id).then((res) => {
-      console.log(data);
       return res.data;
     })
   );
 
-  //TEMPORARY
-  const liked = false;
+  //get all likes of specific post by sending postId
+  const { isLoading, error, data } = useQuery(["likes", post.id], () =>
+    makeRequest.get("/likes?postId=" + post.id).then((res) => {
+      return res.data;
+    })
+  );
+
+  // Access the client
+  const queryClient = useQueryClient();
+  //mutations after sending request and the config it's gonna refresh our fetch likes query
+  // Mutations
+  const mutation = useMutation(
+    (liked) => {
+      if (liked) return makeRequest.delete("/likes?postId=" + post.id);
+      else return makeRequest.post("/likes", { postId: post.id });
+    },
+    {
+      onSuccess: () => {
+        //Invalidate and refresh
+        queryClient.invalidateQueries(["likes"]);
+      },
+    }
+  );
+
+  const handleLike = async (e) => {
+    e.preventDefault();
+    // IMPORTANT 🟡:the variable inside mutate well sends to useMutation
+    mutation.mutate(data.includes(currentUser.id));
+  };
 
   return (
     <div className="post">
@@ -50,12 +83,18 @@ const Post = ({ post }) => {
         </div>
         <div className="info">
           <div className="item">
-            {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            10 Likes
+            {isLoading ? (
+              "Loading"
+            ) : data.includes(currentUser.id) ? (
+              <FavoriteOutlinedIcon onClick={handleLike} />
+            ) : (
+              <FavoriteBorderOutlinedIcon onClick={handleLike} />
+            )}
+            {data?.length} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            {!data ? "0" : data.length} Comments
+           {dataComment?.length} Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />

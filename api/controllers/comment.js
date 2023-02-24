@@ -14,7 +14,6 @@ WHERE c.postId = ? ORDER BY c.createdAt DESC`;
 };
 
 //ADD  A COMMENT
-
 export const addComment = (req, res) => {
   /* Getting the token from the cookie. */
   const token = req.cookies.accessToken;
@@ -25,17 +24,17 @@ export const addComment = (req, res) => {
     if (err) return res.status(403).json({ message: "Token is not valid" });
 
     const q =
-      "INSERT INTO posts (`desc`, `img`, `userId`, `createdAt`) VALUES (?)";
+      "INSERT INTO comments (`desc`,`userId`,`postId`, `createdAt`) VALUES (?)";
     const values = [
       req.body.desc,
-      req.body.img,
       userInfo.id,
+      req.body.postId,
       moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
     ];
 
     db.query(q, [values], (err, data) => {
       if (err) return res.status(500).json(err);
-      return res.status(200).json("Post added successfully!");
+      return res.status(200).json("Comment added successfully!");
     });
   });
 };
