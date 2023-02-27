@@ -12,13 +12,22 @@ export const getTimeline = (req, res) => {
   jwt.verify(token, "secret key", (err, userInfo) => {
     if (err) return res.status(403).json({ message: "Token is not valid" });
 
+    const userId = req.query.userId;
+
     /* A query to get the posts of the user and the posts of the users that the user is following. */
-    const q = `SELECT p.*, u.id AS userId, fullName, profilePic FROM posts AS p JOIN users AS u ON( p.userId = u.id) 
+    const q =
+      userId !== "undefined"
+        ? `SELECT p.*, u.id AS userId, fullName, profilePic FROM posts AS p JOIN users AS u ON( p.userId = u.id) 
+       WHERE p.userId = ? ORDER BY p.createdAt DESC`
+        : `SELECT p.*, u.id AS userId, fullName, profilePic FROM posts AS p JOIN users AS u ON( p.userId = u.id) 
 LEFT JOIN relationships AS r ON (p.userId = r.followedUserId) 
 WHERE r.followerUserId = ? OR p.userId = ? 
 ORDER BY p.createdAt DESC`;
 
-    db.query(q, [userInfo.id, userInfo.id], (err, data) => {
+    const values =
+      userId !== "undefined" ? [userId] : [userInfo.id, userInfo.id];
+
+    db.query(q, values, (err, data) => {
       if (err) return res.status(500).json(err);
       return res.status(200).json(data);
     });
