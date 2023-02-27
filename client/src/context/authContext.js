@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../axios";
 
 export const AuthContext = createContext();
@@ -8,6 +9,7 @@ export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
+
 
   //post all inputs coming from Login page and get user information (res.data)
   const login = async (inputs) => {

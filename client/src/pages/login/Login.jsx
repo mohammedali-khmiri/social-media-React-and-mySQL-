@@ -19,6 +19,7 @@ const Login = () => {
 
   //get login  function from authContext Provider
   const { login } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [err, setErr] = useState(null);
 
@@ -27,9 +28,11 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(inputs);
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (err) {
-      setErr(err.response.data);
+      setErr(err.response?.data);
     }
   };
 

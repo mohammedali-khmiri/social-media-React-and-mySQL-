@@ -3,11 +3,11 @@ import Post from "../post/Post";
 import { useQuery } from "react-query";
 import { makeRequest } from "../../axios";
 
-const Posts = () => {
+const Posts = (userId) => {
 
    // Queries
   const { isLoading, error, data } = useQuery(["posts"], () =>
-    makeRequest.get("/posts").then((res) => {
+    makeRequest.get("/posts",userId).then((res) => {
       console.log(res.data);
 
       return res.data;
