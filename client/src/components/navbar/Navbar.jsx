@@ -24,22 +24,28 @@ const Navbar = () => {
         <Link to="/" style={{ textDecoration: "none" }}>
           <span>Social.</span>
         </Link>
-        <HomeOutlinedIcon style={{ cursor: "pointer" }} />
+        <HomeOutlinedIcon  className="icon" />
 
         {darkMode ? (
-          <WbSunnyOutlinedIcon onClick={toggle} style={{ cursor: "pointer" }} />
+          <WbSunnyOutlinedIcon
+            onClick={toggle}
+         
+            className="icon"
+          />
         ) : (
           <DarkModeOutlinedIcon
             onClick={toggle}
-            style={{ cursor: "pointer" }}
+           
+            className="icon"
           />
         )}
 
-        <AppsOutlinedIcon style={{ cursor: "pointer" }} />
+        <AppsOutlinedIcon style={{ cursor: "pointer" }} className="icon" />
         <div className="search">
           <SearchOutlinedIcon
             style={{ cursor: "pointer" }}
             onClick={() => setSearchOpen(!searchOpen)}
+           
           />
           {searchOpen ? (
             <input
@@ -56,10 +62,10 @@ const Navbar = () => {
         </div>
       </div>
       <div className="right">
-        <PersonOutlinedIcon style={{ cursor: "pointer" }} />
-        <EmailOutlinedIcon style={{ cursor: "pointer" }} />
-        <NotificationsNoneOutlinedIcon style={{ cursor: "pointer" }} />
-        <Link to={`/profile`} className="link-profile">
+        <PersonOutlinedIcon className="icon"  />
+        <EmailOutlinedIcon className="icon" />
+        <NotificationsNoneOutlinedIcon className="icon" />
+        <Link to={`/profile/${currentUser.id}`} className="link-profile">
           <div className="user">
             <img src={currentUser.profilePic} alt="" />
             <span>{currentUser.fullName}</span>

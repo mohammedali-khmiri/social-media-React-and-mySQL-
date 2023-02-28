@@ -35,15 +35,15 @@
           right: 0px;
           left: 0px;
           margin: auto;
-          top: 190px;
+          top: 210px;
           height: 150px;
           width: 150px;
         }
       }
       .changePic {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 50%;
         height: 23px;
         width: 23px;
@@ -52,13 +52,13 @@
         left: 225px;
         padding: 10px;
         background-color: rgb(139, 138, 138);
-		border: 2px solid themed("textColorSoft");
+        border: 2px solid themed("textColorSoft");
         cursor: pointer;
         transition: all 0.2s ease;
 
         .bi-camera-fill {
-        font-size: 27px;
-		color: white;
+          font-size: 27px;
+          color: white;
         }
         @include tablet {
           top: 410px;
@@ -66,7 +66,7 @@
           padding: 5px;
         }
         @include mobile {
-          top: 295px;
+          top: 316px;
           left: 230px;
           padding: 5px;
         }

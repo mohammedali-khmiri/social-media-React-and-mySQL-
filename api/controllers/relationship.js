@@ -12,7 +12,7 @@ export const getRelationships = (req, res) => {
       .json(data.map((following) => following.followerUserId));
   });
 };
-//ADD FOLLOW
+//FOLLOW
 export const addRelationship = (req, res) => {
   /* Getting the token from the cookie. */
   const token = req.cookies.accessToken;
@@ -33,7 +33,7 @@ export const addRelationship = (req, res) => {
   });
 };
 
-//DELETE LIKE
+//UNFOLLOW
 
 export const deleteRelationship = (req, res) => {
   /* Getting the token from the cookie. */

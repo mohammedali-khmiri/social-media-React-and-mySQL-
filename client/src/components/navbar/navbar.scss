@@ -24,6 +24,17 @@
         gap: 40px;
       }
 
+      .icon {
+        padding: 5px;
+        border-radius: 40%;
+        transition: 0.5s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: themed("bgSoft");
+        }
+      }
+
       span {
         font-weight: bold;
         font-size: 20px;
@@ -73,6 +84,16 @@
       @include mobile {
         display: none;
       }
+      .icon {
+        padding: 5px;
+        border-radius: 40%;
+        transition: 0.5s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: themed("bgSoft");
+        }
+      }
       .link-profile {
         text-decoration: none;
         color: themed("textColor");
@@ -81,8 +102,15 @@
         display: flex;
         align-items: center;
         gap: 10px;
+        padding: 10px;
         font-weight: 600;
         cursor: pointer;
+        transition: 0.5s;
+        border-radius: 10px;
+
+        &:hover {
+          background-color: rgba(240, 248, 255, 0.229);
+        }
 
         img {
           width: 30px;

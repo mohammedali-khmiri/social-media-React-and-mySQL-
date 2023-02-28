@@ -17,12 +17,10 @@ export const getTimeline = (req, res) => {
     /* A query to get the posts of the user and the posts of the users that the user is following. */
     const q =
       userId !== "undefined"
-        ? `SELECT p.*, u.id AS userId, fullName, profilePic FROM posts AS p JOIN users AS u ON( p.userId = u.id) 
-       WHERE p.userId = ? ORDER BY p.createdAt DESC`
-        : `SELECT p.*, u.id AS userId, fullName, profilePic FROM posts AS p JOIN users AS u ON( p.userId = u.id) 
-LEFT JOIN relationships AS r ON (p.userId = r.followedUserId) 
-WHERE r.followerUserId = ? OR p.userId = ? 
-ORDER BY p.createdAt DESC`;
+        ? `SELECT p.*, u.id AS userId, fullName, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.userId) WHERE p.userId = ? ORDER BY p.createdAt DESC`
+        : `SELECT p.*, u.id AS userId, fullName, profilePic FROM posts AS p JOIN users AS u ON (u.id = p.userId)
+    LEFT JOIN relationships AS r ON (p.userId = r.followedUserId) WHERE r.followerUserId= ? OR p.userId =?
+    ORDER BY p.createdAt DESC`;
 
     const values =
       userId !== "undefined" ? [userId] : [userInfo.id, userInfo.id];

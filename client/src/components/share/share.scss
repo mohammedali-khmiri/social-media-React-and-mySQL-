@@ -12,6 +12,9 @@
 
     .container {
       padding: 20px;
+      @include mobile {
+      }
+
       .top {
         display: flex;
         align-items: center;
@@ -65,10 +68,19 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        @include mobile {
+          flex-direction: column;
+          gap: 10px;
+        }
+
         .left {
           display: flex;
           align-items: center;
           gap: 50px;
+
+          @include mobile {
+            gap: 5px;
+          }
 
           .item {
             display: flex;
@@ -94,6 +106,9 @@
           }
         }
         .right {
+          @include mobile {
+            
+          }
           button {
             border: none;
             padding: 5px 10px;
@@ -101,6 +116,10 @@
             cursor: pointer;
             background-color: #2f81f4;
             border-radius: 5px;
+
+            @include mobile {
+            width: 100px;
+            }
           }
         }
       }
