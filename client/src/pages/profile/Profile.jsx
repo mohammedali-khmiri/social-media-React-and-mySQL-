@@ -9,15 +9,17 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import Posts from "../../components/posts/Posts";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
+import UpdateModal from "../../components/update/UpdateModal";
 
 const Profile = () => {
   const { currentUser } = useContext(AuthContext);
+  const [openUpModal, setOpenUpModal] = useState(false);
   const userId = parseInt(location.pathname.split("/")[2]);
-
+  
   // Queries
   //get all Information of specific user by sending userId
   const { isLoading, error, data } = useQuery(["user"], () =>
@@ -66,8 +68,8 @@ const Profile = () => {
       ) : (
         <>
           <div className="images">
-            <img src={data.coverPic} alt="" className="cover" />
-            <img src={data.profilePic} alt="" className="profilePic" />
+            <img src={"/upload/"+data.coverPic} alt="" className="cover" />
+            <img src={"/upload/"+data.profilePic} alt="" className="profilePic" />
             <div className="changePic">
               <i class="bi bi-camera-fill"></i>
             </div>
@@ -120,7 +122,7 @@ const Profile = () => {
                   {rIsLoading ? (
                     "Loading"
                   ) : userId === currentUser.id ? (
-                    <button>
+                    <button onClick={() => setOpenUpModal(true)}>
                       <EditIcon /> update
                     </button>
                   ) : (
@@ -144,6 +146,7 @@ const Profile = () => {
           </div>
         </>
       )}
+      {openUpModal && <UpdateModal openUpModal={openUpModal}  setOpenUpModal={setOpenUpModal} user={data}/>}
     </div>
   );
 };
