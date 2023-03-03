@@ -12,8 +12,20 @@ import moment from "moment";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
+import { Menu, MenuItem } from "@mui/material";
 
 const Post = ({ post }) => {
+  //MENU SECTION
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  //COMMENT SECTION
   const [commentOpen, setCommentOpen] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
@@ -28,6 +40,8 @@ const Post = ({ post }) => {
       return res.data;
     })
   );
+
+  //LIKES SECTION
 
   //get all likes of specific post by sending postId
   const { isLoading, error, data } = useQuery(["likes", post.id], () =>
@@ -58,6 +72,10 @@ const Post = ({ post }) => {
     // IMPORTANT 🟡:the variable inside mutate well sends to useMutation
     mutation.mutate(data.includes(currentUser.id));
   };
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    mutation.mutate(data.includes(currentUser.id));
+  };
 
   return (
     <div className="post">
@@ -75,7 +93,23 @@ const Post = ({ post }) => {
               <span className="date">{moment(post.createdAt).fromNow()}</span>
             </div>
           </div>
-          <MoreHorizIcon className="treeDot" />
+          <MoreHorizIcon className="treeDot" onClick={handleClick} />
+          <Menu
+            className="basic-menu"
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
+          >
+            <MenuItem className="basic-menu" onClick={handleClose}>
+              Profile
+            </MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </div>
         <div className="content">
           <p>{post.desc}</p>
@@ -94,7 +128,7 @@ const Post = ({ post }) => {
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-           {dataComment?.length} Comments
+            {dataComment?.length} Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />

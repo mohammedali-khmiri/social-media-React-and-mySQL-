@@ -51,7 +51,7 @@ const UpdateModal = ({ openUpModal, setOpenUpModal, user }) => {
     setTexts((prev) => ({ ...prev, [e.target.name]: [e.target.value] }));
   };
 
-  //mutations after adding a new post it's gonna refresh our fetch method get posts
+  //mutations after send the new user info it's gonna refresh our fetch method get User
   // Access the client
   const queryClient = useQueryClient();
   // Mutations
@@ -76,7 +76,6 @@ const UpdateModal = ({ openUpModal, setOpenUpModal, user }) => {
     coverUrl = cover ? await upload(cover) : user.coverPic;
     profileUrl = profile ? await upload(profile) : user.profilePic;
 
-    console.log(profileUrl);
     mutation.mutate({ ...texts, coverPic: coverUrl, profilePic: profileUrl });
     setOpenUpModal(false);
     setCover(null);
