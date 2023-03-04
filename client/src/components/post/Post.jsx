@@ -67,14 +67,29 @@ const Post = ({ post }) => {
     }
   );
 
+  //DELETE MUTATION
+  const mutationDelete = useMutation(
+    (postId) => {
+      if (postId) return makeRequest.delete("/posts/" + postId);
+    },
+    {
+      onSuccess: () => {
+        //Invalidate and refresh
+        queryClient.invalidateQueries(["posts"]);
+      },
+    }
+  );
+
   const handleLike = async (e) => {
     e.preventDefault();
     // IMPORTANT 🟡:the variable inside mutate well sends to useMutation
     mutation.mutate(data.includes(currentUser.id));
   };
+
   const handleDelete = async (e) => {
     e.preventDefault();
-    mutation.mutate(data.includes(currentUser.id));
+    mutationDelete.mutate(post.id);
+    handleClose();
   };
 
   return (
@@ -105,10 +120,14 @@ const Post = ({ post }) => {
             }}
           >
             <MenuItem className="basic-menu" onClick={handleClose}>
-              Profile
+              Save
             </MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            {post.userId === currentUser.id && (
+              <MenuItem onClick={handleClose}>Edit post</MenuItem>
+            )}
+            {post.userId === currentUser.id && (
+              <MenuItem onClick={handleDelete}>Delete post</MenuItem>
+            )}
           </Menu>
         </div>
         <div className="content">

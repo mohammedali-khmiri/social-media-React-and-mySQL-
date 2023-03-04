@@ -4,6 +4,7 @@
 	@include themify($themes) {
 		background-color: themed("bgSoft");
 		padding: 20px 60px;
+		min-height: 100vh;
 		
 		@include tablet {
 			padding: 20px 30px;
